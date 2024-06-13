@@ -1,7 +1,7 @@
-44249440e681d19c02525f698a560d54 *DESCRIPTION
+84d87a61b289e0215096219c32ceb172 *DESCRIPTION
 9d8b6f55ab42a757362c820b4349ebff *LICENSE.note
 4b854da8a00daed814640712c75b09fc *NAMESPACE
-022852d7c60b1ce39195894e5e4b6e9c *NEWS.md
+b42428c1b6eb377e3bbce3b4328f8315 *NEWS.md
 90289d467fb05734138060db76468d18 *R/array.R
 567a1b0cac62a3bb0c20d56940c03589 *R/geoarrow-package.R
 fad769eb04496e93a5a1654956f4d4b1 *R/handle.R
@@ -27,7 +27,7 @@ b293668f3638394e2bb66393a0d5e132 *src/Makevars
 caccb1ef3dbc82d4f53b36c258b5b51c *src/d2s.c
 8b794ea7bf377b25fd5305377f521551 *src/double_parse_fast_float.cc
 2b7fc316ff34d3f51dd19c1f9d37cd6a *src/fast_float.h
-43636652a62711fcc40c0be37c67eeca *src/geoarrow.c
+36cfa13b451d7daf88cf5640bcd56d31 *src/geoarrow.c
 70ef6eb7e359722afd2b6a4c2b00965d *src/geoarrow.h
 e196c8197da7267b0ddffb44617921f0 *src/r-init.c
 e09ef13f6d7f741837ed2150595209ff *src/r-kernel.c
