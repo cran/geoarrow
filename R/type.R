@@ -56,6 +56,26 @@ na_extension_large_wkt <- function(crs = NULL, edges = "PLANAR") {
 
 #' @rdname na_extension_wkb
 #' @export
+na_extension_wkb_view <- function(crs = NULL, edges = "PLANAR") {
+  na_extension_geoarrow_internal(
+    enum$Type$WKB_VIEW,
+    crs = crs,
+    edges = edges
+  )
+}
+
+#' @rdname na_extension_wkb
+#' @export
+na_extension_wkt_view <- function(crs = NULL, edges = "PLANAR") {
+  na_extension_geoarrow_internal(
+    enum$Type$WKT_VIEW,
+    crs = crs,
+    edges = edges
+  )
+}
+
+#' @rdname na_extension_wkb
+#' @export
 na_extension_geoarrow <- function(geometry_type, dimensions = "XY",
                                   coord_type = "SEPARATE",
                                   crs = NULL, edges = "PLANAR") {
@@ -120,6 +140,30 @@ geoarrow_large_wkb <- function(crs = NULL, edges = "PLANAR") {
 geoarrow_large_wkt <- function(crs = NULL, edges = "PLANAR") {
   nanoarrow::nanoarrow_vctr(
     na_extension_large_wkt(
+      crs = crs,
+      edges = edges
+    ),
+    subclass = "geoarrow_vctr"
+  )
+}
+
+#' @rdname geoarrow_wkb
+#' @export
+geoarrow_wkb_view <- function(crs = NULL, edges = "PLANAR") {
+  nanoarrow::nanoarrow_vctr(
+    na_extension_wkb_view(
+      crs = crs,
+      edges = edges
+    ),
+    subclass = "geoarrow_vctr"
+  )
+}
+
+#' @rdname geoarrow_wkb
+#' @export
+geoarrow_wkt_view <- function(crs = NULL, edges = "PLANAR") {
+  nanoarrow::nanoarrow_vctr(
+    na_extension_wkt_view(
       crs = crs,
       edges = edges
     ),
@@ -195,6 +239,15 @@ geoarrow_multipolygon <- function(dimensions = "XY",
                                   coord_type = "SEPARATE",
                                   crs = NULL, edges = "PLANAR") {
   geoarrow_native("MULTIPOLYGON", dimensions = dimensions, coord_type = coord_type,
+                  crs = crs, edges = edges)
+}
+
+#' @rdname geoarrow_wkb
+#' @export
+geoarrow_box <- function(dimensions = "XY",
+                         coord_type = "SEPARATE",
+                         crs = NULL, edges = "PLANAR") {
+  geoarrow_native("BOX", dimensions = dimensions, coord_type = coord_type,
                   crs = crs, edges = edges)
 }
 
@@ -282,13 +335,21 @@ na_extension_metadata_internal <- function(crs, edges) {
 
   if (identical(edges, enum$EdgeType$SPHERICAL)) {
     metadata <- c(metadata, '"edges":"spherical"')
+  } else if (identical(edges, enum$EdgeType$VINCENTY)) {
+    metadata <- c(metadata, '"edges":"vincenty"')
+  } else if (identical(edges, enum$EdgeType$ANDOYER)) {
+    metadata <- c(metadata, '"edges":"andoyer"')
+  } else if (identical(edges, enum$EdgeType$THOMAS)) {
+    metadata <- c(metadata, '"edges":"thomas"')
+  } else if (identical(edges, enum$EdgeType$KARNEY)) {
+    metadata <- c(metadata, '"edges":"karney"')
   }
 
   sprintf("{%s}", paste(metadata, collapse = ","))
 }
 
 sanitize_crs <- function(crs = NULL) {
-  if (is.null(crs)) {
+  if (is.null(crs) || isTRUE(try(is.na(crs), silent = TRUE))) {
     return(list(crs_type = enum$CrsType$NONE, crs = ""))
   }
 
@@ -334,7 +395,9 @@ enum <- list(
     WKB = 100001L,
     LARGE_WKB = 100002L,
     WKT = 100003L,
-    LARGE_WKT = 100004L
+    LARGE_WKT = 100004L,
+    WKB_VIEW = 100005L,
+    WKT_VIEW = 100006L
   ),
   GeometryType = list(
     GEOMETRY = 0L,
@@ -344,7 +407,8 @@ enum <- list(
     MULTIPOINT = 4L,
     MULTILINESTRING = 5L,
     MULTIPOLYGON = 6L,
-    GEOMETRYCOLLECTION = 7L
+    GEOMETRYCOLLECTION = 7L,
+    BOX = 990L
   ),
   Dimensions = list(
     UNKNOWN = 0L,
@@ -361,10 +425,17 @@ enum <- list(
   CrsType = list(
     NONE = 0L,
     UNKNOWN = 1L,
-    PROJJSON = 2L
+    PROJJSON = 2L,
+    WKT2_2019 = 3L,
+    AUTHORITY_CODE = 4L,
+    SRID = 5L
   ),
   EdgeType = list(
     PLANAR = 0L,
-    SPHERICAL = 1L
+    SPHERICAL = 1L,
+    VINCENTY = 2L,
+    THOMAS = 3L,
+    ANDOYER = 4L,
+    KARNEY = 5L
   )
 )

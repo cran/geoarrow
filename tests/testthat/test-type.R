@@ -10,6 +10,11 @@ test_that("nanoarrow_schema can be created for serialized types", {
   expect_identical(schema_large_wkb$metadata[["ARROW:extension:name"]], "geoarrow.wkb")
   expect_identical(schema_large_wkb$metadata[["ARROW:extension:metadata"]], "{}")
 
+  schema_wkb_view <- na_extension_wkb_view()
+  expect_identical(schema_wkb_view$format, "vz")
+  expect_identical(schema_wkb_view$metadata[["ARROW:extension:name"]], "geoarrow.wkb")
+  expect_identical(schema_wkb_view$metadata[["ARROW:extension:metadata"]], "{}")
+
   schema_wkt <- na_extension_wkt()
   expect_identical(schema_wkt$format, "u")
   expect_identical(schema_wkt$metadata[["ARROW:extension:name"]], "geoarrow.wkt")
@@ -19,6 +24,11 @@ test_that("nanoarrow_schema can be created for serialized types", {
   expect_identical(schema_large_wkt$format, "U")
   expect_identical(schema_large_wkt$metadata[["ARROW:extension:name"]], "geoarrow.wkt")
   expect_identical(schema_large_wkt$metadata[["ARROW:extension:metadata"]], "{}")
+
+  schema_wkt_view <- na_extension_wkt_view()
+  expect_identical(schema_wkt_view$format, "vu")
+  expect_identical(schema_wkt_view$metadata[["ARROW:extension:name"]], "geoarrow.wkt")
+  expect_identical(schema_wkt_view$metadata[["ARROW:extension:metadata"]], "{}")
 })
 
 test_that("nanoarrow_schema can be created for native types", {
@@ -26,6 +36,13 @@ test_that("nanoarrow_schema can be created for native types", {
   expect_identical(schema_point$format, "+s")
   expect_identical(schema_point$metadata[["ARROW:extension:name"]], "geoarrow.point")
   expect_identical(schema_point$metadata[["ARROW:extension:metadata"]], "{}")
+})
+
+test_that("nanoarrow_schema can be created for box type", {
+  schema_box <- na_extension_geoarrow("BOX")
+  expect_identical(schema_box$format, "+s")
+  expect_identical(schema_box$metadata[["ARROW:extension:name"]], "geoarrow.box")
+  expect_identical(schema_box$metadata[["ARROW:extension:metadata"]], "{}")
 })
 
 test_that("nanoarrow_schema create errors for invalid combinations of parameters", {
@@ -40,6 +57,30 @@ test_that("nanoarrow_schema can be created with metadata", {
   expect_identical(
     schema$metadata[["ARROW:extension:metadata"]],
     '{"crs":{},"edges":"spherical"}'
+  )
+
+  schema <- na_extension_wkb(crs = "{}", edges = "VINCENTY")
+  expect_identical(
+    schema$metadata[["ARROW:extension:metadata"]],
+    '{"crs":{},"edges":"vincenty"}'
+  )
+
+  schema <- na_extension_wkb(crs = "{}", edges = "THOMAS")
+  expect_identical(
+    schema$metadata[["ARROW:extension:metadata"]],
+    '{"crs":{},"edges":"thomas"}'
+  )
+
+  schema <- na_extension_wkb(crs = "{}", edges = "ANDOYER")
+  expect_identical(
+    schema$metadata[["ARROW:extension:metadata"]],
+    '{"crs":{},"edges":"andoyer"}'
+  )
+
+  schema <- na_extension_wkb(crs = "{}", edges = "KARNEY")
+  expect_identical(
+    schema$metadata[["ARROW:extension:metadata"]],
+    '{"crs":{},"edges":"karney"}'
   )
 
   schema <- na_extension_wkb(crs = "{}", edges = "PLANAR")
@@ -117,6 +158,11 @@ test_that("vctr type constructors create the correct types", {
     geoarrow_schema_parse(geoarrow_multipolygon()),
     geoarrow_schema_parse(na_extension_geoarrow("MULTIPOLYGON"))
   )
+
+  expect_identical(
+    geoarrow_schema_parse(geoarrow_box()),
+    geoarrow_schema_parse(na_extension_geoarrow("BOX"))
+  )
 })
 
 test_that("vctr type constructors pass parameters through", {
@@ -124,6 +170,13 @@ test_that("vctr type constructors pass parameters through", {
     geoarrow_schema_parse(geoarrow_wkb(crs = "OGC:CRS84", edges = "SPHERICAL")),
     geoarrow_schema_parse(
       na_extension_wkb(crs = "OGC:CRS84", edges = "SPHERICAL")
+    )
+  )
+
+  expect_identical(
+    geoarrow_schema_parse(geoarrow_wkb(crs = "OGC:CRS84", edges = "VINCENTY")),
+    geoarrow_schema_parse(
+      na_extension_wkb(crs = "OGC:CRS84", edges = "VINCENTY")
     )
   )
 

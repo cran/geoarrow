@@ -12,6 +12,16 @@ test_that("st_as_sfc() works for geoarrow_vctr()", {
   )
 })
 
+test_that("st_crs() is converted to missing geoarrow crs", {
+  skip_if_not_installed("sf")
+
+  empty_crs_sfc <- sf::st_sfc(sf::st_point(c(0, 1)))
+  schema <- infer_geoarrow_schema(empty_crs_sfc)
+  schema_parsed <- geoarrow_schema_parse(schema)
+  expect_identical(schema_parsed$crs, "")
+  expect_identical(schema_parsed$crs_type, enum$CrsType$NONE)
+})
+
 test_that("arrow package objects can be converted to and from sf objects", {
   skip_if_not_installed("sf")
   skip_if_not_installed("arrow")
@@ -103,7 +113,6 @@ test_that("infer_nanoarrow_schema() works for mixed sfc objects", {
   schema <- infer_nanoarrow_schema(sfc)
   parsed <- geoarrow_schema_parse(schema)
   expect_identical(parsed$id, enum$Type$WKB)
-  expect_identical(parsed$crs_type, enum$CrsType$PROJJSON)
 })
 
 test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects", {
@@ -119,7 +128,6 @@ test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects",
   parsed <- geoarrow_schema_parse(schema)
   expect_identical(parsed$geometry_type, enum$GeometryType$POINT)
   expect_identical(parsed$dimensions, enum$Dimensions$XY)
-  expect_identical(parsed$crs_type, enum$CrsType$PROJJSON)
 })
 
 test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects (Z)", {
@@ -135,7 +143,6 @@ test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects (
   parsed <- geoarrow_schema_parse(schema)
   expect_identical(parsed$geometry_type, enum$GeometryType$POINT)
   expect_identical(parsed$dimensions, enum$Dimensions$XYZ)
-  expect_identical(parsed$crs_type, enum$CrsType$PROJJSON)
 })
 
 test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects (M)", {
@@ -151,7 +158,6 @@ test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects (
   parsed <- geoarrow_schema_parse(schema)
   expect_identical(parsed$geometry_type, enum$GeometryType$POINT)
   expect_identical(parsed$dimensions, enum$Dimensions$XYM)
-  expect_identical(parsed$crs_type, enum$CrsType$PROJJSON)
 })
 
 test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects (ZM)", {
@@ -167,7 +173,21 @@ test_that("infer_nanoarrow_schema() works for single-geometry type sfc objects (
   parsed <- geoarrow_schema_parse(schema)
   expect_identical(parsed$geometry_type, enum$GeometryType$POINT)
   expect_identical(parsed$dimensions, enum$Dimensions$XYZM)
-  expect_identical(parsed$crs_type, enum$CrsType$PROJJSON)
+})
+
+test_that("sf and sfc objects can roundtrip through nanoarrow_array/stream", {
+  skip_if_not_installed("sf")
+
+  sfc <- sf::st_sfc(
+    sf::st_point(c(1, 2)),
+    sf::st_point(c(3, 4))
+  )
+  stream <- nanoarrow::as_nanoarrow_array_stream(sfc)
+  expect_identical(sf::st_as_sfc(stream), sfc)
+
+  sf <- sf::st_as_sf(sfc)
+  stream <- nanoarrow::as_nanoarrow_array_stream(sf)
+  expect_identical(sf::st_as_sf(stream), sf)
 })
 
 test_that("as_nanoarrow_array() works for mixed sfc", {
@@ -215,6 +235,26 @@ test_that("as_nanoarrow_array() works for sfc_POINT", {
   expect_identical(
     as.raw(array$children[[2]]$buffers[[2]]),
     as.raw(nanoarrow::as_nanoarrow_buffer(c(2, 4)))
+  )
+})
+
+test_that("as_nanoarrow_array() works for sfc_POINT with precision", {
+  skip_if_not_installed("sf")
+
+  sfc <- sf::st_sfc(
+    sf::st_point(c(1.33333333, 2.3333333)),
+    sf::st_point(c(3.33333333, 4.3333333))
+  )
+  sf::st_precision(sfc) <- 100
+
+  array <- as_nanoarrow_array(sfc)
+  expect_identical(
+    as.raw(array$children[[1]]$buffers[[2]]),
+    as.raw(nanoarrow::as_nanoarrow_buffer(c(1.33, 3.33)))
+  )
+  expect_identical(
+    as.raw(array$children[[2]]$buffers[[2]]),
+    as.raw(nanoarrow::as_nanoarrow_buffer(c(2.33, 4.33)))
   )
 })
 
@@ -279,6 +319,27 @@ test_that("as_nanoarrow_array() works for sfc_LINESTRING", {
   expect_identical(
     as.raw(array$children[[1]]$children[[2]]$buffers[[2]]),
     as.raw(nanoarrow::as_nanoarrow_buffer(c(2, 4)))
+  )
+})
+
+test_that("as_nanoarrow_array() works for sfc_LINESTRING with precision", {
+  skip_if_not_installed("sf")
+
+  sfc <- sf::st_sfc(
+    sf::st_linestring(
+      rbind(c(1.3333333, 2.33333333), c(3.3333333, 4.3333333))
+    )
+  )
+  sf::st_precision(sfc) <- 100
+
+  array <- as_nanoarrow_array(sfc)
+  expect_identical(
+    as.raw(array$children[[1]]$children[[1]]$buffers[[2]]),
+    as.raw(nanoarrow::as_nanoarrow_buffer(c(1.33, 3.33)))
+  )
+  expect_identical(
+    as.raw(array$children[[1]]$children[[2]]$buffers[[2]]),
+    as.raw(nanoarrow::as_nanoarrow_buffer(c(2.33, 4.33)))
   )
 })
 

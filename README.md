@@ -23,7 +23,7 @@ You can install the released version of geoarrow from
 [CRAN](https://cran.r-project.org/) with:
 
 ``` r
-install.packages("nanoarrow")
+install.packages("geoarrow")
 ```
 
 You can install the development version of geoarrow from
@@ -46,9 +46,8 @@ to **arrow** functions directly after `library(geoarrow)` or
 ``` r
 library(geoarrow)
 library(arrow, warn.conflicts = FALSE)
-#> Warning: package 'arrow' was built under R version 4.3.3
 library(sf)
-#> Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
+#> Linking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE
 
 nc <- read_sf(system.file("gpkg/nc.gpkg", package = "sf"))
 tf <- tempfile(fileext = ".parquet")
