@@ -1,6 +1,6 @@
 Package: geoarrow
 Title: Extension Types for Spatial Data for Use with 'Arrow'
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: 
     c(
       person(given = "Dewey",
@@ -25,7 +25,7 @@ Description: Provides extension types and conversions to between R-native
   packages.
 License: Apache License (>= 2)
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: nanoarrow (>= 0.5.0), wk (>= 0.9.0)
 LinkingTo: wk
 Config/testthat/edition: 3
@@ -36,7 +36,7 @@ Depends: R (>= 3.6.0)
 Suggests: arrow, R6, sf, testthat (>= 3.0.0)
 SystemRequirements: C++17
 NeedsCompilation: yes
-Packaged: 2025-09-21 21:01:43 UTC; dewey
+Packaged: 2025-11-19 20:20:32 UTC; dewey
 Author: Dewey Dunnington [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-9415-4582>),
   Anthony North [ctb],
@@ -46,4 +46,4 @@ Author: Dewey Dunnington [aut, cre] (ORCID:
   Joao Paulo Magalhaes [cph]
 Maintainer: Dewey Dunnington <dewey@dunnington.ca>
 Repository: CRAN
-Date/Publication: 2025-09-21 21:20:02 UTC
+Date/Publication: 2025-11-19 20:30:02 UTC

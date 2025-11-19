@@ -1,7 +1,7 @@
-6c0d0f5c019839407a92dba4893d8939 *DESCRIPTION
+04b35c19bbde98ae9a99dc3373dcd942 *DESCRIPTION
 9d8b6f55ab42a757362c820b4349ebff *LICENSE.note
 6df207321b98c2a23bb806f9574405d6 *NAMESPACE
-ec8c967f5f902b26f7ab3f4fc8e883ea *NEWS.md
+9b43b476cb8abf765be1328331a6301b *NEWS.md
 59953b1317622c20ef53d9fd699588f7 *R/array.R
 567a1b0cac62a3bb0c20d56940c03589 *R/geoarrow-package.R
 4ce1c0f460a1e420dc64dd7f1c7a2389 *R/handle.R
@@ -53,7 +53,7 @@ c07f5909134dbb60b19baf50e2399ade *tests/testthat/test-infer-default.R
 bebfed30357fdd83110a1db2b30dd675 *tests/testthat/test-kernel.R
 3e2d97c2a3044f7ede00d861ed33efee *tests/testthat/test-pkg-arrow.R
 208956e93f1cab4d234e130f0a9fa396 *tests/testthat/test-pkg-nanoarrow.R
-151de497cddb851d2f63916350f3d4f4 *tests/testthat/test-pkg-sf.R
+6fea9d6345748905ab4abba9cc332f75 *tests/testthat/test-pkg-sf.R
 07ec9395b68d7d82b1c0554b7861186d *tests/testthat/test-pkg-wk.R
 daf8c6b00c2608b7b3fdef1eb6da2235 *tests/testthat/test-type.R
 cb4923ade3fd344aafe5e0c09d935000 *tests/testthat/test-vctr.R
