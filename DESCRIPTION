@@ -1,6 +1,6 @@
 Package: geoarrow
 Title: Extension Types for Spatial Data for Use with 'Arrow'
-Version: 0.4.1
+Version: 0.4.2
 Authors@R: 
     c(
       person(given = "Dewey",
@@ -36,7 +36,7 @@ Depends: R (>= 3.6.0)
 Suggests: arrow, R6, sf, testthat (>= 3.0.0)
 SystemRequirements: C++17
 NeedsCompilation: yes
-Packaged: 2025-11-19 20:20:32 UTC; dewey
+Packaged: 2026-02-08 04:44:58 UTC; deweydunnington
 Author: Dewey Dunnington [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-9415-4582>),
   Anthony North [ctb],
@@ -46,4 +46,4 @@ Author: Dewey Dunnington [aut, cre] (ORCID:
   Joao Paulo Magalhaes [cph]
 Maintainer: Dewey Dunnington <dewey@dunnington.ca>
 Repository: CRAN
-Date/Publication: 2025-11-19 20:30:02 UTC
+Date/Publication: 2026-02-08 06:10:02 UTC
