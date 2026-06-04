@@ -1,7 +1,7 @@
-82a0717384447b02851f952c07924f9f *DESCRIPTION
+940eae4d60ead881974b8813b902b96b *DESCRIPTION
 9d8b6f55ab42a757362c820b4349ebff *LICENSE.note
 6df207321b98c2a23bb806f9574405d6 *NAMESPACE
-8b6e777188f463604aae94c57825dc28 *NEWS.md
+155f2dc2a2a4c472b29cf540f006c463 *NEWS.md
 59953b1317622c20ef53d9fd699588f7 *R/array.R
 567a1b0cac62a3bb0c20d56940c03589 *R/geoarrow-package.R
 4ce1c0f460a1e420dc64dd7f1c7a2389 *R/handle.R
@@ -30,9 +30,9 @@ caccb1ef3dbc82d4f53b36c258b5b51c *src/d2s.c
 dce0a75f00b2b0982f068035245fc651 *src/geoarrow.c
 866f9af3c158d7db1a9c20bdc73a9cf7 *src/geoarrow/geoarrow.h
 6e36d75c55f51d702172bf86c5f00789 *src/geoarrow/geoarrow.hpp
-7f11282432edab23f5e7d26a80342d95 *src/nanoarrow.c
-7be07e651df498e24173084f292cc0d2 *src/nanoarrow/nanoarrow.h
-0497c334db01d68262925b7bc619164d *src/nanoarrow/nanoarrow.hpp
+25d14d1630f67d12cc07123d26f619c3 *src/nanoarrow.c
+69f42e44e50c3ba76d942429851fb4c2 *src/nanoarrow/nanoarrow.h
+352cb662752251a07a6fac6f4fcc9fc7 *src/nanoarrow/nanoarrow.hpp
 e196c8197da7267b0ddffb44617921f0 *src/r-init.c
 bbadd4c1c01aa2fbfa66e11aa55f297a *src/r-kernel.c
 1fd518484c741b9c3e4ebd395eb7d95c *src/r-sf-compat.c
